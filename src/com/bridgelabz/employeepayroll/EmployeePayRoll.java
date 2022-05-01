@@ -70,9 +70,29 @@ public class EmployeePayRoll implements Serializable {
 		System.out.println("------------***EMPLOYEE PAY ROLL USING FILE HANDLING***-----------------");
 		
 		Scanner in = new Scanner(System.in);	
-		ObjectOutputStream oos = null ;
 		EmployeePayRoll employee = new EmployeePayRoll();
+		
+		File file = new File("Employeepayroll.txt");
+		File file1 = new File("employee_directory");
+		System.out.println("\n *****file creation *******");
+		file.createNewFile();
+		if( file.exists() == true)
+		{
+			System.out.println("file is created and exists");
+		}
+		else
+			System.out.println("file not created");
+		file.delete();
+		System.out.println("file deleted \n ");
+		
+		System.out.println("*****Directory creation********");
+		file1.mkdir();
+		if( file1.exists() == true)
+			System.out.println("directory created");
+		else 
+			System.out.println("directory not created ");
 	
+		System.out.println(" ");
 		int a ;
 		do {
 			
@@ -85,7 +105,7 @@ public class EmployeePayRoll implements Serializable {
 			              case 1:
 				                employee.getdata();
 				                break;
-				 
+				
 			              case 2:
 				                employee.display();
 				                break;
