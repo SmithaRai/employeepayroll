@@ -6,7 +6,8 @@ public class EmployeePayRoll implements Serializable {
 	private  int id;
 	private  String name;
 	private  double salary;
-		
+	
+	
     public int getId() {
 		return id;
 	}
@@ -21,7 +22,8 @@ public class EmployeePayRoll implements Serializable {
 	
 	
 	static List<EmployeePayRoll> list = new ArrayList<>();
-
+	File file = new File("E:\\eclipseworkspace\\employeepayroll\\employee_directory\\Employee.txt");
+    ObjectOutputStream oos = null;
 	
      public EmployeePayRoll() {
 		// TODO Auto-generated constructor stub
@@ -36,7 +38,7 @@ public class EmployeePayRoll implements Serializable {
 	public  void getdata() throws Exception, IOException
     {
 	 Scanner in = new Scanner(System.in);
-	 
+
 	 System.out.println("ENTER NO.OF ENTRIES TO BE ENTERED : ");
 	 int n = in.nextInt();
 	 
@@ -49,12 +51,15 @@ public class EmployeePayRoll implements Serializable {
 	       salary = in.nextDouble(); 
 	       
 	      list.add(new EmployeePayRoll(id , name ,salary));
-	      
 	     }
-     }
-	
+	      oos = new ObjectOutputStream(new FileOutputStream(file));
+         oos.writeObject(list);
+         oos.close();
+      }
+   
    public void display()
    {
+	   System.out.println(list.size());
       for(int i = 0 ; i < list.size() ; i++ )
       { 
     	System.out.println("employee id : "+list.get(i).getId());
@@ -62,7 +67,9 @@ public class EmployeePayRoll implements Serializable {
         System.out.println("employee salary : "+list.get(i).getSalary());
         System.out.println(" ");
       }
-   }
+   }   
+   
+      
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
@@ -72,26 +79,20 @@ public class EmployeePayRoll implements Serializable {
 		Scanner in = new Scanner(System.in);	
 		EmployeePayRoll employee = new EmployeePayRoll();
 		
-		File file = new File("Employeepayroll.txt");
-		File file1 = new File("employee_directory");
-		System.out.println("\n *****file creation *******");
-		file.createNewFile();
-		if( file.exists() == true)
-		{
-			System.out.println("file is created and exists");
-		}
-		else
-			System.out.println("file not created");
-		file.delete();
-		System.out.println("file deleted \n ");
 		
-		System.out.println("*****Directory creation********");
+		File file1 = new File("employee_directory");
 		file1.mkdir();
-		if( file1.exists() == true)
-			System.out.println("directory created");
-		else 
-			System.out.println("directory not created ");
-	
+		
+		File file = new File("E:\\eclipseworkspace\\employeepayroll\\employee_directory\\Employee.txt");
+		file.createNewFile();
+	 
+		ObjectInputStream ois = null;
+		if(file.exists()== true) {
+			ois = new ObjectInputStream(new FileInputStream(file));
+			list = (ArrayList<EmployeePayRoll>)ois.readObject(); 
+			ois.close();
+			}
+		
 		System.out.println(" ");
 		int a ;
 		do {
@@ -110,6 +111,8 @@ public class EmployeePayRoll implements Serializable {
 				                employee.display();
 				                break;
 				 
+			       
+			            	  
 		                  default :
 		    	               System.out.println("invalid input");
 		               }
